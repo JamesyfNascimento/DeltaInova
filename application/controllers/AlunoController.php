@@ -24,9 +24,9 @@ class AlunoController extends REST_Controller {
         $data = $this->Aluno->getAlunos();
         print_r($data);
 		if ($data) {
-            $this->response($data, 200);
+            $this->response($data, REST_Controller::HTTP_OK);
         } else {
-            $this->response(array(), 200);
+            $this->response(array(), REST_Controller::HTTP_OK);
         }
     }
 
@@ -42,6 +42,11 @@ class AlunoController extends REST_Controller {
         $this->Aluno->editarAluno($input, array('matricula'=>$matricula));
         $this->response(['Aluno alterado.'], REST_Controller::HTTP_OK);
 
+    }
+
+    public function index_delete($matricula){
+        $this->Aluno->removerAluno(array('matricula'=>$matricula));
+        $this->response(['Aluno removido.'], REST_Controller::HTTP_OK);
     }
     
 }
