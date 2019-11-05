@@ -34,7 +34,14 @@ class AlunoController extends REST_Controller {
     public function index_post(){
         $input = $this->input->post();
         $this->Aluno->addAlunos($input);
-        $this->response(['Item created successfully.'], REST_Controller::HTTP_OK);
+        $this->response(['Aluno cadastrado.'], REST_Controller::HTTP_OK);
     } 
+
+    public function index_put($matricula){
+        $input = $this->put();
+        $this->Aluno->editarAluno($input, array('matricula'=>$matricula));
+        $this->response(['Aluno alterado.'], REST_Controller::HTTP_OK);
+
+    }
     
 }
