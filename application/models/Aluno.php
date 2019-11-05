@@ -9,6 +9,20 @@ class Aluno extends CI_Model{
         return $query->result();
     }
 
+    //get aluno pela matricula
+    public function getAlunoByMatricula($matricula=NULL){
+        if ($matricula != NULL){
+            //Verifica se a matricula no banco de dados
+            $this->db->where('matricula', $matricula);        
+            //limita para apenas um regstro    
+            $this->db->limit(1);
+            //pega o aluno
+            $query = $this->db->get("Alunos");        
+            //retornamos o aluno
+            return $query->row();   
+        }
+    } 
+
     // persiste o aluno no banco
     public function  addAlunos($data = NULL){
         if($data != NULL){
@@ -31,4 +45,5 @@ class Aluno extends CI_Model{
             $this->db->delete('Alunos', array('matricula' => $matricula));
         }
     }
+
 }
