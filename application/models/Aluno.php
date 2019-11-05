@@ -24,4 +24,11 @@ class Aluno extends CI_Model{
             $this->db->update('Alunos', $data, array('matricula'=>$matricula));      
         }
     } 
+
+     // remove um aluno dado uma matricula
+     public function removerAluno($matricula = NULL){
+        if($matricula != NULL){
+            $this->db->delete('Alunos', array('matricula' => $matricula));
+        }
+    }
 }
