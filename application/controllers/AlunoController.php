@@ -22,7 +22,7 @@ class AlunoController extends REST_Controller {
 	//retorna a lista dos alunos
 	public function index_get($id = 0){
         if(!empty($id)){
-            $data = $this->db->get_where("items", ['id' => $id])->row_array();
+            $data = $this->Aluno->getAlunoByMatricula();
         }else{
             $data = $this->Aluno->getAlunos();
         }
