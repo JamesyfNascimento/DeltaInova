@@ -20,9 +20,9 @@ class AlunoController extends REST_Controller {
 	}
 		
 	//retorna a lista dos alunos
-	public function index_get($id = 0){
-        if(!empty($id)){
-            $data = $this->Aluno->getAlunoByMatricula();
+	public function index_get($matricula = 0){
+        if(!empty($matricula)){
+            $data = $this->Aluno->getAlunoByMatricula($matricula);
         }else{
             $data = $this->Aluno->getAlunos();
         }
@@ -30,7 +30,6 @@ class AlunoController extends REST_Controller {
         $this->response($data, REST_Controller::HTTP_OK);
         
     }
-
 
     public function index_post(){
         $input = $this->input->post();
@@ -46,7 +45,7 @@ class AlunoController extends REST_Controller {
     }
 
     public function index_delete($matricula){
-        $this->Aluno->removerAluno(array('matricula'=>$matricula));
+        $this->Aluno->removerAluno($matricula);
         $this->response(['Aluno removido.'], REST_Controller::HTTP_OK);
     }
     
