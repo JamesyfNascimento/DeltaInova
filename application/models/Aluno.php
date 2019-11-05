@@ -15,4 +15,13 @@ class Aluno extends CI_Model{
             $this->db->insert('Alunos', $data);
         }
     }
+
+    //Atualizar um aluno na tabela Alunos
+    public function editarAluno($data=NULL, $matricula=NULL){
+        //Verifica se foi passado $data e $matricula    
+        if ($data != NULL && $matricula != NULL){
+            //Se foi passado ele vai a atualização
+            $this->db->update('Alunos', $data, array('matricula'=>$matricula));      
+        }
+    } 
 }
