@@ -20,14 +20,15 @@ class AlunoController extends REST_Controller {
 	}
 		
 	//retorna a lista dos alunos
-	public function index_get(){
-        $data = $this->Aluno->getAlunos();
-        print_r($data);
-		if ($data) {
-            $this->response($data, REST_Controller::HTTP_OK);
-        } else {
-            $this->response(array(), REST_Controller::HTTP_OK);
+	public function index_get($id = 0){
+        if(!empty($id)){
+            $data = $this->db->get_where("items", ['id' => $id])->row_array();
+        }else{
+            $data = $this->Aluno->getAlunos();
         }
+
+        $this->response($data, REST_Controller::HTTP_OK);
+        
     }
 
 
