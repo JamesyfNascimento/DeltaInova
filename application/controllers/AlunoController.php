@@ -59,14 +59,13 @@ class AlunoController extends REST_Controller {
 
     public function removerAluno_post(){
         try{
-            $matricula = $this->input->post('matricula');
-            $this->response($matricula, REST_Controller::HTTP_OK);
-            // $this->Aluno->removerAluno($matricula);
-            // if($this->getAlunoByMatricula($matricula)){
-            //     $this->response(['Aluno removido.'], REST_Controller::HTTP_OK);
-            // }else{
-            //     throw new Exception("Erro ao deletar aluno");
-            // }
+            $matricula = $this->uri->segment('3');
+            $this->Aluno->removerAluno($matricula);
+            if($this->getAlunoByMatricula($matricula)){
+                $this->response(['Aluno removido.'], REST_Controller::HTTP_OK);
+            }else{
+                throw new Exception("Erro ao deletar aluno");
+            }
         }catch(Exception $e){
             $errorMessage =  $e->getMessage();
             throw new Exception($errorMessage);
