@@ -3,10 +3,27 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Aluno extends CI_Model{
 
+    public function __construct(){
+        parent::__construct();
+        try{
+            $this->db->from('Alunos');
+        }catch(Exception $e){
+            $errorMessage =  $e->getMessage();
+            throw new Exception($errorMessage);
+        }
+	}
+
     // retorna  todos os alunos  do banco de dados
     public function getAlunos(){
-        $query = $this->db->get('Alunos');
-        return $query->result();
+        try{
+            $query = $this->db->get();
+            if($query){
+                return $query->result();
+            }
+        }catch(Exception $e){
+            $errorMessage =  $e->getMessage();
+            throw new Exception($errorMessage);
+        }
     }
 
     //get aluno pela matricula
@@ -41,8 +58,13 @@ class Aluno extends CI_Model{
 
      // remove um aluno dado uma matricula
      public function removerAluno($matricula = NULL){
-        if($matricula != NULL){
-            $this->db->delete('Alunos', array('matricula' => $matricula));
+        try{
+            if($matricula != NULL){
+                $this->db->delete('Alunos', array('matricula' => $matricula));
+            }
+        }catch(Exception $e){
+            $errorMessage =  $e->getMessage();
+            throw new Exception($errorMessage);
         }
     }
 
