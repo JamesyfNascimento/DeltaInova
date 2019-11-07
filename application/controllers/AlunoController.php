@@ -27,41 +27,36 @@ class AlunoController extends REST_Controller {
 
     public function aluno_get($matricula){
         $data = $this->Aluno->getAlunoByMatricula($matricula);
-        $this->response($data, REST_Controller::HTTP_OK);
+        $this->response($data , REST_Controller::HTTP_OK);
     }
 
     public function adicionarAluno_post(){
-        $input = $this->input->post();
-        $this->Aluno->addAlunos($input);
-        $this->response(['Aluno cadastrado.'], REST_Controller::HTTP_OK);
-    } 
-
-    public function editarAluno_put($matricula){
-        $input = $this->put();
-        $this->Aluno->editarAluno($input, array('matricula'=>$matricula));
-        $this->response(['Aluno alterado.'], REST_Controller::HTTP_OK);
-
-    }
+        $post = $this->post();
+        $input = json_decode($post[0], true);
+        $aluno = array(
+            'nome' => $input['nome'],
+            'avatar' => $input['avatar']
  
-    //get aluno pela matricula
-    public function getAlunoByMatricula($matricula=NULL){
-        if ($matricula != NULL){
-            //Verifica se a matricula no banco de dados
-            $this->db->where('matricula', $matricula);        
-            //limita para apenas um regstro    
-            $this->db->limit(1);
-            //pega o aluno
-            $query = $this->db->get("Alunos");        
-            //retornamos o aluno
-            return $query->row();   
-        }
+        );
+        $result = $this->Aluno->addAlunos($aluno);
+        $this->response($result, REST_Controller::HTTP_OK);
     } 
+
+    public function editarAluno_post(){
+        $post = $this->post();
+        $input = json_decode($post[0], true);
+        $matricula = $input['matricula'];
+        $result = $this->Aluno->editarAluno($input, $matricula);
+        $this->response($result, REST_Controller::HTTP_OK);
+
+
+    }  
 
     public function removerAluno_post(){
         try{
             $matricula = $this->uri->segment('3');
             $this->Aluno->removerAluno($matricula);
-            if($this->getAlunoByMatricula($matricula)){
+            if($this->Aluno->getAlunoByMatricula($matricula)){
                 $this->response(['Aluno removido.'], REST_Controller::HTTP_OK);
             }else{
                 throw new Exception("Erro ao deletar aluno");
